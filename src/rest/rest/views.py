@@ -47,7 +47,7 @@ class TodoListView(APIView):
         try:
             #logger.debug(todo_entry)
             collection.insert(request.data)
-            return Response({"errMsg": "Entry added successfully"}, status=status.HTTP_200_OK)
+            return Response({"res": "Entry added successfully"}, status=status.HTTP_200_OK)
         except:
             return Response({"errMsg": "Could not add entry"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
