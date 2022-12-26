@@ -1,8 +1,9 @@
 import {Fragment, useState} from 'react'
 
-const Form = () => {
+const Form = (props)=> {
 	
 	const [entry, setEntry] = useState({})
+	const[error, setError] = useState("")
 
 	const changeHandler = e => {
 	    const {name, value} = e.target         
@@ -12,6 +13,10 @@ const Form = () => {
 
 	const submitHandler = e => {
 	    e.preventDefault()
+	    if(!entry.todo){
+	        setError("Todo cannot be empty")
+		return
+	    }
 	    fetch('http://localhost:8000/todos/', {
 			method: 'POST',
 			headers: {
@@ -21,10 +26,10 @@ const Form = () => {
 	    })
 		.then(response => {
 			console.log(response)
-			window.location.reload()
+			props.refreshHandler()
 	    })
 		.catch(err => {
-			alert(err)
+			setError("Could not save the entry")
 	    })
     }
 	
@@ -39,7 +44,8 @@ const Form = () => {
           <div style={{"marginTop": "5px"}}>
             <button onClick={submitHandler}>Add To Do!</button>
 		</div>
-		</form>
+	</form>
+	{error.length!==0 && <h3 style={{'color': 'red'}}>{error}</h3>}
 	</Fragment>
 	)
 }

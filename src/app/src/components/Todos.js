@@ -1,7 +1,8 @@
 import {useState, useEffect} from 'react'
 
-const Todos = () => {
+const Todos = (props) => {
 	const [todoList, setTodoList] = useState({})
+	const [error, setError] = useState("")
 	useEffect(() => {
 		fetch('http://localhost:8000/todos/')
 		.then(response => {
@@ -11,13 +12,15 @@ const Todos = () => {
 				setTodoList(res)
 			})
 			.catch(err => {
-				alert(err)
+				console.log(err)
+				setError("Could not parse JSON")
 			})
 		})
 		.catch(err => {
-			alert(err)
+			console.log(err)
+			setError("Failed to fetch Todos")
 		})
-	}, [])
+	}, [props.refreshKey])
 
 	return(
 		<div>
@@ -30,6 +33,7 @@ const Todos = () => {
 				})
 				}
 			</ul>
+		{error.length!==0 && <h3 style={{'color': 'red'}}>{error}</h3>}
 		</div>
 	)
 }
