@@ -31,9 +31,9 @@ class TodoListView(APIView):
             if todos is not None:
                 return Response({"res": todoList}, status=status.HTTP_200_OK)
             else:
-                return Response({"No entries found"}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"errMsg": "No entries found"}, status=status.HTTP_404_NOT_FOUND)
         except:
-            return Response({"Cound not fetch todos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"errMsg": "Cound not fetch todos"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     
     def post(self, request):
@@ -47,7 +47,7 @@ class TodoListView(APIView):
         try:
             #logger.debug(todo_entry)
             collection.insert(request.data)
-            return Response({"Entry added successfully"}, status=status.HTTP_200_OK)
+            return Response({"errMsg": "Entry added successfully"}, status=status.HTTP_200_OK)
         except:
-            return Response({"Could not add entry"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"errMsg": "Could not add entry"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
